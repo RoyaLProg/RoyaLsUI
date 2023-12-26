@@ -3,9 +3,9 @@
 	"id": "royalsui",
 	"version": "${version}",
 	"name": "RoyaLsUI",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Simple UIs made for me",
 	"authors": [
-		"Me!"
+		"RoyaLProg"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
