@@ -10,6 +10,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.awt.*;
 import java.lang.reflect.Array;
@@ -19,7 +20,11 @@ public class ArmorStatusRender implements HudRenderCallback {
     private final MinecraftClient minecraft;
     private final TextRenderer textRenderer;
 
-    private static final Identifier part = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/cancel.png");
+//    private static final Identifier part = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/cancel.png");
+    private static final Identifier boot = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_boots.png");
+    private static final Identifier leggin = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_leggings.png");
+    private static final Identifier chestplate = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_chestplate.png");
+    private static final Identifier helmet = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_helmet.png");
     public ArmorStatusRender() {
         minecraft = MinecraftClient.getInstance();
         textRenderer = minecraft.textRenderer;
@@ -29,22 +34,26 @@ public class ArmorStatusRender implements HudRenderCallback {
         if (item.isEmpty())
             return 0;
         Color color = new Color(item.getItemBarColor());
+        float[] colors = color.getRGBComponents(null);
         RenderSystem.setShaderTexture(0, part);
-        RenderSystem.setShaderColor(color.getRed(), color.getGreen(), color.getBlue(), 1.0F);
+        RenderSystem.setShaderColor(colors[0], colors[1], colors[2], 1.0F);
         RenderSystem.setShader(GameRenderer::getRenderTypeTextProgram);
-        drawContext.drawTexture(part, 0 + xoffset, 0 + yoffset, 0, 0, 12, 12, 12, 12);
+        drawContext.drawTexture(part, 0 + xoffset, 0 + yoffset, 0, 0, 16, 16, 16, 16);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        return (15);
+        return (18);
     }
 
     @Override
     public void onHudRender(DrawContext drawContext, float tickDelta) {
 //        drawContext.drawGuiTexture(part, 0, 0, 30, 30);
         ClientPlayerEntity player = minecraft.player;
-        Identifier[] parts = {part, part, part, part};
+        Identifier[] parts = {boot, leggin, chestplate, helmet};
         int offset = 0;
 
-        for (int i = 0; i < parts.length; i++)
+        for (int i = parts.length - 1; i >= 0; i--)
             offset += renderPart(drawContext, player.getInventory().getArmorStack(i), parts[i], 0, offset);
+//        Color color = new Color(player.getInventory().getArmorStack(0).getItemBarColor());
+//        String text = "color r :" + color.getRed() + " g : " + color.getGreen() + " b : " + color.getBlue() + "!";
+//        drawContext.drawText(minecraft.textRenderer, text, 0, offset, 0xFFFFFF, false);
     }
 }
