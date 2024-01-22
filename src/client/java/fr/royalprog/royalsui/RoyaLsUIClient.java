@@ -1,5 +1,6 @@
 package fr.royalprog.royalsui;
 
+import fr.royalprog.royalsui.config.ModConfigs;
 import fr.royalprog.royalsui.render.ArmorStatusRender;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -14,6 +15,9 @@ public class RoyaLsUIClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		LOGGER.info("STARTING ROYALSUI");
+
+		ModConfigs.registerConfigs();
+
 		HudRenderCallback.EVENT.register(new ArmorStatusRender());
 	}
 }

@@ -2,6 +2,7 @@ package fr.royalprog.royalsui.render;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.royalprog.royalsui.RoyaLsUIClient;
+import fr.royalprog.royalsui.config.ModConfigs;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -28,17 +29,18 @@ public class ArmorStatusRender implements HudRenderCallback {
         textRenderer = minecraft.textRenderer;
     }
 
-    public int renderPart(DrawContext drawContext, ItemStack item, Identifier part, int xoffset, int yoffset) {
+    public int[] renderPart(DrawContext drawContext, ItemStack item, Identifier part, int xpos, int ypos, int[] offsets) {
         if (item.isEmpty())
-            return 0;
+            return offsets;
         Color color = new Color(item.getItemBarColor());
         float[] colors = color.getRGBComponents(null);
         RenderSystem.setShaderTexture(0, part);
         RenderSystem.setShaderColor(colors[0], colors[1], colors[2], 1.0F);
         RenderSystem.setShader(GameRenderer::getRenderTypeTextProgram);
-        drawContext.drawTexture(part, drawContext.getScaledWindowWidth() - 16 + xoffset, 0 + yoffset, 0, 0, 16, 16, 16, 16);
+        drawContext.drawTexture(part, xpos + offsets[0], ypos + offsets[1], 0, 0, 16, 16, 16, 16);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        return (18);
+        offsets[1] += 18;
+        return offsets;
     }
 
     @Override
@@ -46,12 +48,12 @@ public class ArmorStatusRender implements HudRenderCallback {
 //        drawContext.drawGuiTexture(part, 0, 0, 30, 30);
         ClientPlayerEntity player = minecraft.player;
         Identifier[] parts = {boot, legging, chestplate, helmet};
-        int offset = 0;
+        int xpos = ModConfigs.XPOS;
+        int ypos = ModConfigs.YPOS;
+        int[] offsets = {0, 0};
 
         for (int i = parts.length - 1; i >= 0; i--)
-            offset += renderPart(drawContext, player.getInventory().getArmorStack(i), parts[i], 0, offset);
-//        Color color = new Color(player.getInventory().getArmorStack(0).getItemBarColor());
-//        String text = "color r :" + color.getRed() + " g : " + color.getGreen() + " b : " + color.getBlue() + "!";
-//        drawContext.drawText(minecraft.textRenderer, text, 0, offset, 0xFFFFFF, false);
+            offsets = renderPart(drawContext, player.getInventory().getArmorStack(i), parts[i], xpos, ypos, offsets);
+
     }
 }
