@@ -10,10 +10,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 
 public class ArmorStatusRender implements HudRenderCallback {
 
@@ -22,7 +20,7 @@ public class ArmorStatusRender implements HudRenderCallback {
 
 //    private static final Identifier part = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/cancel.png");
     private static final Identifier boot = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_boots.png");
-    private static final Identifier leggin = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_leggings.png");
+    private static final Identifier legging = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_leggings.png");
     private static final Identifier chestplate = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_chestplate.png");
     private static final Identifier helmet = new Identifier(RoyaLsUIClient.MOD_ID, "textures/gui/sprites/armor_helmet.png");
     public ArmorStatusRender() {
@@ -38,7 +36,7 @@ public class ArmorStatusRender implements HudRenderCallback {
         RenderSystem.setShaderTexture(0, part);
         RenderSystem.setShaderColor(colors[0], colors[1], colors[2], 1.0F);
         RenderSystem.setShader(GameRenderer::getRenderTypeTextProgram);
-        drawContext.drawTexture(part, 0 + xoffset, 0 + yoffset, 0, 0, 16, 16, 16, 16);
+        drawContext.drawTexture(part, drawContext.getScaledWindowWidth() - 16 + xoffset, 0 + yoffset, 0, 0, 16, 16, 16, 16);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         return (18);
     }
@@ -47,7 +45,7 @@ public class ArmorStatusRender implements HudRenderCallback {
     public void onHudRender(DrawContext drawContext, float tickDelta) {
 //        drawContext.drawGuiTexture(part, 0, 0, 30, 30);
         ClientPlayerEntity player = minecraft.player;
-        Identifier[] parts = {boot, leggin, chestplate, helmet};
+        Identifier[] parts = {boot, legging, chestplate, helmet};
         int offset = 0;
 
         for (int i = parts.length - 1; i >= 0; i--)

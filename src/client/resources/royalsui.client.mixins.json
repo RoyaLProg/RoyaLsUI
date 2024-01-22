@@ -3,7 +3,8 @@
 	"package": "fr.royalprog.royalsui.mixin.client",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"ExampleClientMixin"
+		"ExampleClientMixin",
+		"GameMenuScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
