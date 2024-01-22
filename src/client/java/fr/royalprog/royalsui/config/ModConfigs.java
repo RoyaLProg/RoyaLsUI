@@ -30,4 +30,17 @@ public class ModConfigs {
 
         System.out.println("All " + configs.getConfigsList().size() + " configs have been set properly");
     }
+
+    public static void modify(Pair<String, ?> pair) {
+        configs.modifyKeyValue(pair);
+    }
+
+    public static void save() {
+        try {
+            CONFIG.save();
+        } catch (Exception e) {
+            RoyaLsUIClient.LOGGER.error("Cannot write to config : " + e.getCause() + "\n");
+        }
+
+    }
 }

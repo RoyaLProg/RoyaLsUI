@@ -29,9 +29,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -251,6 +249,12 @@ public class SimpleConfig {
     public boolean delete() {
         LOGGER.warn( "Config '" + request.filename + "' was removed from existence! Restart the game to regenerate it." );
         return request.file.delete();
+    }
+
+    public void save() throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter writer = new PrintWriter(request.file, "UTF-8");
+        writer.write( request.getConfig() );
+        writer.close();
     }
 
 }

@@ -21,6 +21,36 @@ public class ModConfigProvider implements SimpleConfig.DefaultConfig {
                 + comment + " | default: " + keyValuePair.getSecond() + "\n";
     }
 
+    public void modifyKeyValue(Pair<String, ?> keyPair) {
+        String[] temp = configContents.split("\n");
+        int i;
+        int j = 0;
+        for (i = 0; i < temp.length; i++) {
+            if (temp[i].contains(keyPair.getFirst()))
+                break ;
+        }
+
+        for (Pair pair : configsList){
+            if (pair.getFirst().equals(keyPair.getFirst()))
+                break;
+            j++;
+        }
+
+        if (i == temp.length || j == configsList.size())
+            return ;
+
+        System.out.println("configsList.get(j).getSecond().toString() : " + configsList.get(j).getSecond().toString());
+        System.out.println("keyPair.getSecond().toString() : " + keyPair.getSecond().toString());
+        temp[i] =  temp[i].replace(configsList.get(j).getSecond().toString(), keyPair.getSecond().toString());
+        StringBuilder newContent = new StringBuilder();
+        for (String s : temp)
+            newContent.append(s).append("\n");
+
+        configsList.set(j, keyPair);
+        configContents = newContent.toString();
+
+    }
+
     @Override
     public String get(String namespace) {
         return configContents;

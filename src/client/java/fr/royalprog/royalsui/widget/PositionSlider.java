@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 public class PositionSlider extends SliderWidget {
     private final int min;
     private final int max;
-    private int xvalue;
+    private static int xvalue;
 
     public PositionSlider(int x, int y, int width, int value, int min, int max) {
         super(x, y, width, 20, ScreenTexts.EMPTY, value);
@@ -18,8 +18,6 @@ public class PositionSlider extends SliderWidget {
         this.max = max;
         this.value = ((double) (MathHelper.clamp(value, min, max) - min) / (max - min));
         this.updateMessage();
-
-        System.out.println("x : " + x + " y : " + y + " min : " + min + " max : " + max);
     }
 
     public void applyValue() {

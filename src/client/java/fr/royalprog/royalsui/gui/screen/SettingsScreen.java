@@ -1,5 +1,7 @@
 package fr.royalprog.royalsui.gui.screen;
 
+import com.mojang.datafixers.util.Pair;
+import fr.royalprog.royalsui.config.ModConfigProvider;
 import fr.royalprog.royalsui.config.ModConfigs;
 import fr.royalprog.royalsui.widget.PositionSlider;
 import net.minecraft.client.gui.screen.Screen;
@@ -24,9 +26,19 @@ public class SettingsScreen extends Screen {
         addDrawableChild(xSlider);
     }
 
+    private void modifyConfig() {
+        ModConfigs.XPOS = xSlider.getValue();
+
+        ModConfigs.modify(new Pair<String, Integer>("armor.x", xSlider.getValue()));
+    }
+
+    private void saveConfig() {
+        ModConfigs.save();
+    }
     @Override
     public void close() {
-        ModConfigs.XPOS = xSlider.getValue();
+        modifyConfig();
+        saveConfig();
         client.setScreen(parent);
     }
 }
