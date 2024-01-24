@@ -10,13 +10,16 @@ import net.minecraft.util.math.MathHelper;
 public class PositionSlider extends SliderWidget {
     private final int min;
     private final int max;
-    private static int xvalue;
+    private int xvalue;
+    private String text;
 
-    public PositionSlider(int x, int y, int width, int value, int min, int max) {
+    public PositionSlider(int x, int y, int width, int value, int min, int max, String text) {
         super(x, y, width, 20, ScreenTexts.EMPTY, value);
         this.min = min;
         this.max = max;
         this.value = ((double) (MathHelper.clamp(value, min, max) - min) / (max - min));
+        this.xvalue = value;
+        this.text = text;
         this.updateMessage();
     }
 
@@ -25,7 +28,7 @@ public class PositionSlider extends SliderWidget {
     }
 
     protected void updateMessage() {
-        this.setMessage(ScreenTexts.composeGenericOptionText(Text.literal("pos x"), Text.literal(String.valueOf(xvalue))));
+        this.setMessage(ScreenTexts.composeGenericOptionText(Text.literal(text), Text.literal(String.valueOf(xvalue))));
     }
 
     public int getValue() {
