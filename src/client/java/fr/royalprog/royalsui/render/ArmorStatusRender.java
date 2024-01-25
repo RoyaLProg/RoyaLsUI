@@ -8,9 +8,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
+import org.joml.Matrix4f;
 
 import java.awt.*;
 
@@ -34,18 +36,14 @@ public class ArmorStatusRender implements HudRenderCallback {
             return offsets;
         Color color = new Color(item.getItemBarColor());
         float[] colors = color.getRGBComponents(null);
-        RenderSystem.setShaderTexture(0, part);
         RenderSystem.setShaderColor(colors[0], colors[1], colors[2], 1.0F);
-        RenderSystem.setShader(GameRenderer::getRenderTypeTextProgram);
         drawContext.drawTexture(part, xpos + offsets[0], ypos + offsets[1], 0, 0, 16, 16, 16, 16);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         offsets[1] += 18;
         return offsets;
     }
 
     @Override
     public void onHudRender(DrawContext drawContext, float tickDelta) {
-//        drawContext.drawGuiTexture(part, 0, 0, 30, 30);
         ClientPlayerEntity player = minecraft.player;
         Identifier[] parts = {boot, legging, chestplate, helmet};
         int xpos = ModConfigs.XPOS;
@@ -56,4 +54,5 @@ public class ArmorStatusRender implements HudRenderCallback {
             offsets = renderPart(drawContext, player.getInventory().getArmorStack(i), parts[i], xpos, ypos, offsets);
 
     }
+
 }
