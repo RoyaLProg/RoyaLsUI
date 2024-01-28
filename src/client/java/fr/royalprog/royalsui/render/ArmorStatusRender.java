@@ -53,6 +53,7 @@ public class ArmorStatusRender implements HudRenderCallback {
         for (int i = parts.length - 1; i >= 0; i--)
             offsets = renderPart(drawContext, player.getInventory().getArmorStack(i), parts[i], xpos, ypos, offsets);
 
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
     }
 
 }
